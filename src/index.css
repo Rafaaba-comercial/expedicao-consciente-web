@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Expedição Consciente — Retro Space Design System
+   All colors HSL. Saturated retro palette on near-black space backgrounds.
+*/
+
+@layer base {
+  :root {
+    /* Space — deep midnight blue, almost black */
+    --background: 230 45% 6%;
+    --foreground: 40 30% 92%;
+
+    /* Surfaces — cream panels (retro poster paper) */
+    --card: 38 35% 90%;
+    --card-foreground: 230 45% 12%;
+
+    --popover: 38 35% 90%;
+    --popover-foreground: 230 45% 12%;
+
+    /* Primary — burnt orange */
+    --primary: 18 78% 52%;
+    --primary-foreground: 40 40% 96%;
+
+    /* Secondary — deep teal */
+    --secondary: 184 62% 32%;
+    --secondary-foreground: 40 40% 96%;
+
+    /* Muted — dim space blue */
+    --muted: 230 35% 14%;
+    --muted-foreground: 40 20% 70%;
+
+    /* Accent — coral */
+    --accent: 8 82% 68%;
+    --accent-foreground: 230 45% 10%;
+
+    /* Mustard — extra retro accent */
+    --mustard: 42 88% 58%;
+    --mustard-foreground: 230 45% 10%;
+
+    /* Cream paper */
+    --cream: 38 50% 92%;
+    --cream-foreground: 230 45% 12%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 40 40% 96%;
+
+    --border: 230 35% 20%;
+    --input: 230 35% 18%;
+    --ring: 18 78% 52%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-space: radial-gradient(ellipse at center, hsl(230 45% 10%) 0%, hsl(230 50% 4%) 80%);
+    --gradient-orbit: linear-gradient(135deg, hsl(18 78% 52%), hsl(8 82% 68%));
+
+    /* Shadows */
+    --shadow-glow: 0 0 60px hsl(18 78% 52% / 0.4);
+    --shadow-planet: 0 8px 32px hsl(230 50% 2% / 0.6);
+    --shadow-panel: 0 4px 24px hsl(230 50% 2% / 0.5);
+
+    /* Transitions */
+    --transition-planet: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    background: var(--gradient-space);
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Bungee', 'Space Grotesk', system-ui, sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .font-retro {
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  /* Twinkling starfield */
+  .starfield {
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, hsl(40 30% 92% / 0.8), transparent),
+      radial-gradient(1px 1px at 60% 70%, hsl(40 30% 92% / 0.6), transparent),
+      radial-gradient(1.5px 1.5px at 80% 20%, hsl(40 30% 92% / 0.9), transparent),
+      radial-gradient(1px 1px at 35% 85%, hsl(40 30% 92% / 0.5), transparent),
+      radial-gradient(1px 1px at 90% 60%, hsl(40 30% 92% / 0.7), transparent),
+      radial-gradient(1.5px 1.5px at 15% 55%, hsl(40 30% 92% / 0.6), transparent),
+      radial-gradient(1px 1px at 50% 15%, hsl(40 30% 92% / 0.8), transparent),
+      radial-gradient(1px 1px at 75% 45%, hsl(40 30% 92% / 0.5), transparent),
+      radial-gradient(1px 1px at 25% 75%, hsl(40 30% 92% / 0.7), transparent),
+      radial-gradient(1.5px 1.5px at 95% 90%, hsl(40 30% 92% / 0.6), transparent);
+    background-size: 100% 100%;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .twinkle {
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  @keyframes orbit-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .float {
+    animation: orbit-float 4s ease-in-out infinite;
+  }
+
+  @keyframes float-slow-kf {
+    0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
+    50% { transform: translateY(-12px) rotate(var(--rot, 0deg)); }
+  }
+
+  .float-slow {
+    animation: orbit-float 7s ease-in-out infinite;
+  }
+
+  @keyframes twinkle-slow-kf {
+    0%, 100% { opacity: var(--op-min, 0.3); transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  .twinkle-slow {
+    animation: twinkle-slow-kf 4s ease-in-out infinite;
+  }
+
+  @keyframes drift-kf {
+    0% { transform: translate(0, 0) rotate(-25deg); opacity: 0; }
+    15% { opacity: 0.9; }
+    100% { transform: translate(-60vw, 35vh) rotate(-25deg); opacity: 0; }
+  }
+
+  .drift {
+    animation: drift-kf 18s linear infinite;
+  }
+
+  /* Cross-shaped sparkle (pure CSS, tints with foreground) */
+  .sparkle {
+    position: absolute;
+    background:
+      linear-gradient(to bottom, transparent 45%, hsl(var(--foreground)) 45%, hsl(var(--foreground)) 55%, transparent 55%),
+      linear-gradient(to right, transparent 45%, hsl(var(--foreground)) 45%, hsl(var(--foreground)) 55%, transparent 55%);
+    filter: drop-shadow(0 0 4px hsl(var(--foreground) / 0.7));
+    opacity: 0.9;
+  }
+
+  @keyframes orbit-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .orbit-ring {
+    border: 1px dashed hsl(40 30% 92% / 0.12);
+    border-radius: 50%;
+    position: absolute;
+  }
+
+  /* Halftone overlay for retro feel */
+  .halftone {
+    background-image: radial-gradient(hsl(230 50% 2% / 0.15) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  /* Subtle noise/grain texture overlay */
+  .grain {
+    background-image:
+      radial-gradient(hsl(40 30% 92% / 0.04) 1px, transparent 1px),
+      radial-gradient(hsl(40 30% 92% / 0.03) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 1px;
+  }
+}
