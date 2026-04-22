@@ -22,7 +22,7 @@ const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
   const leftX = 18;
   const rightX = 82;
   // Y positions for the 4 stops in each column (top to bottom)
-  const ys = [15, 38, 62, 85];
+  const ys = [12, 33, 54, 75];
 
   return planets.map((p, i) => {
     const isLeft = i < 4;
