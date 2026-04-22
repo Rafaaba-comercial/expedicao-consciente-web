@@ -96,7 +96,7 @@ export const Dashboard = () => {
         style={{ background: "var(--gradient-space)" }}
       />
       {/* Subtle grain */}
-      <div className="grain absolute inset-0 opacity-60" />
+      <div className="grain absolute inset-0 opacity-100 mix-blend-overlay pointer-events-none" />
 
       {/* Decorative space layer (asteroids, comet, ufo, big stars) */}
       <SpaceBackground />

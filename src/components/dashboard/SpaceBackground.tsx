@@ -1,7 +1,4 @@
-import asteroid from "@/assets/space-asteroid.png";
-import comet from "@/assets/space-comet.png";
-import rocket from "@/assets/space-rocket.png";
-import ufo from "@/assets/space-ufo.png";
+
 
 /**
  * Decorative deep-space layer: large stars, asteroids, comets, ships.
@@ -42,71 +39,6 @@ export const SpaceBackground = () => {
         />
       ))}
 
-      {/* Asteroids */}
-      {ASTEROIDS.map((a, i) => (
-        <img
-          key={`as-${i}`}
-          src={asteroid}
-          alt=""
-          aria-hidden
-          className="absolute float-slow select-none"
-          style={{
-            left: a.left,
-            top: a.top,
-            width: a.size,
-            height: a.size,
-            opacity: a.opacity,
-            transform: `rotate(${a.rotate}deg)`,
-            animationDelay: `${a.delay}s`,
-          }}
-          width={120}
-          height={120}
-        />
-      ))}
-
-      {/* Comet (top right, drifting) */}
-      <img
-        src={comet}
-        alt=""
-        aria-hidden
-        className="absolute drift select-none"
-        style={{ right: "8%", top: "12%", width: "180px", opacity: 0.8 }}
-        width={180}
-        height={180}
-      />
-
-      {/* Rocket (top left area) */}
-      <img
-        src={rocket}
-        alt=""
-        aria-hidden
-        className="absolute float-slow select-none"
-        style={{
-          left: "6%",
-          top: "18%",
-          width: "90px",
-          transform: "rotate(-20deg)",
-          opacity: 0.9,
-        }}
-        width={90}
-        height={90}
-      />
-
-      {/* UFO (mid-right) */}
-      <img
-        src={ufo}
-        alt=""
-        aria-hidden
-        className="absolute float select-none"
-        style={{
-          right: "5%",
-          top: "55%",
-          width: "80px",
-          opacity: 0.85,
-        }}
-        width={80}
-        height={80}
-      />
     </div>
   );
 };
@@ -123,6 +55,7 @@ type Star = {
 };
 
 const BIG_STARS: Star[] = [
+  // Original stars
   { left: "8%", top: "10%", size: 4, opacity: 0.9, glow: 8, delay: 0 },
   { left: "22%", top: "32%", size: 3, opacity: 0.7, glow: 6, delay: 0.5 },
   { left: "14%", top: "70%", size: 5, opacity: 0.95, glow: 10, delay: 1.2 },
@@ -138,32 +71,41 @@ const BIG_STARS: Star[] = [
   { left: "5%", top: "45%", size: 3, opacity: 0.7, glow: 6, delay: 1.4 },
   { left: "48%", top: "55%", size: 2, opacity: 0.6, glow: 4, delay: 0.2 },
   { left: "82%", top: "62%", size: 3, opacity: 0.75, glow: 6, delay: 1.1 },
+  // Extra stars
+  { left: "12%", top: "25%", size: 3, opacity: 0.8, glow: 5, delay: 0.7 },
+  { left: "28%", top: "60%", size: 4, opacity: 0.9, glow: 7, delay: 1.9 },
+  { left: "75%", top: "15%", size: 3, opacity: 0.75, glow: 6, delay: 0.4 },
+  { left: "85%", top: "80%", size: 4, opacity: 0.85, glow: 8, delay: 2.1 },
+  { left: "40%", top: "90%", size: 5, opacity: 0.95, glow: 10, delay: 1.5 },
+  { left: "65%", top: "40%", size: 3, opacity: 0.7, glow: 5, delay: 0.9 },
+  { left: "50%", top: "35%", size: 2, opacity: 0.6, glow: 4, delay: 2.3 },
+  { left: "2%", top: "80%", size: 4, opacity: 0.8, glow: 7, delay: 1.1 },
+  { left: "95%", top: "25%", size: 3, opacity: 0.9, glow: 6, delay: 0.8 },
+  { left: "60%", top: "65%", size: 5, opacity: 1, glow: 11, delay: 2.5 },
+  { left: "18%", top: "95%", size: 3, opacity: 0.85, glow: 6, delay: 1.3 },
+  { left: "35%", top: "50%", size: 4, opacity: 0.75, glow: 8, delay: 0.6 },
+  { left: "80%", top: "50%", size: 3, opacity: 0.7, glow: 5, delay: 1.7 },
+  { left: "50%", top: "5%", size: 4, opacity: 0.9, glow: 9, delay: 2.0 },
+  { left: "90%", top: "65%", size: 2, opacity: 0.65, glow: 4, delay: 1.2 },
 ];
 
 type Sparkle = { left: string; top: string; size: number; delay: number };
 
 const SPARKLES: Sparkle[] = [
+  // Original
   { left: "18%", top: "20%", size: 14, delay: 0.4 },
   { left: "40%", top: "45%", size: 10, delay: 1.3 },
   { left: "68%", top: "20%", size: 16, delay: 0.7 },
   { left: "85%", top: "75%", size: 12, delay: 2.0 },
   { left: "25%", top: "78%", size: 14, delay: 1.7 },
   { left: "58%", top: "68%", size: 10, delay: 0.9 },
-];
-
-type Asteroid = {
-  left: string;
-  top: string;
-  size: number;
-  opacity: number;
-  rotate: number;
-  delay: number;
-};
-
-const ASTEROIDS: Asteroid[] = [
-  { left: "12%", top: "55%", size: 70, opacity: 0.85, rotate: 15, delay: 0 },
-  { left: "85%", top: "20%", size: 55, opacity: 0.8, rotate: -25, delay: 1.2 },
-  { left: "92%", top: "85%", size: 80, opacity: 0.9, rotate: 40, delay: 0.6 },
-  { left: "3%", top: "82%", size: 50, opacity: 0.75, rotate: -10, delay: 2 },
-  { left: "48%", top: "8%", size: 40, opacity: 0.7, rotate: 30, delay: 1.5 },
+  // Extra sparkles
+  { left: "10%", top: "60%", size: 12, delay: 0.2 },
+  { left: "30%", top: "30%", size: 15, delay: 1.1 },
+  { left: "50%", top: "15%", size: 10, delay: 2.5 },
+  { left: "75%", top: "45%", size: 14, delay: 0.8 },
+  { left: "90%", top: "30%", size: 16, delay: 1.5 },
+  { left: "45%", top: "85%", size: 12, delay: 2.2 },
+  { left: "8%", top: "85%", size: 10, delay: 1.9 },
+  { left: "70%", top: "90%", size: 15, delay: 0.5 },
 ];
