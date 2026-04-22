@@ -24,13 +24,13 @@ const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
   // Y positions for the 4 stops in each column (top to bottom)
   const ys = [8, 27, 46, 65];
 
-  // Arched X positions (curving around the center text)
-  const leftXs = [24, 14, 13, 22];
-  const rightXs = [76, 86, 87, 78];
+  // Arched X positions (curving around the center text) - Less intense
+  const leftXs = [21, 17, 16, 20];
+  const rightXs = [79, 83, 84, 80];
 
-  // Base scales for visual variation
-  const leftScales = [0.85, 1.15, 0.9, 0.75];
-  const rightScales = [0.95, 0.8, 1.2, 0.85];
+  // Base scales for visual variation - Scaled up overall
+  const leftScales = [1.1, 1.4, 1.15, 1.0];
+  const rightScales = [1.2, 1.05, 1.45, 1.1];
 
   return planets.map((p, i) => {
     const isLeft = i < 4;
