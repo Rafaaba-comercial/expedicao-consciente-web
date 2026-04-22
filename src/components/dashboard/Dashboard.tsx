@@ -12,6 +12,8 @@ interface PlanetSlot extends Planet {
   xPct: number;
   /** Vertical position as % of universe area */
   yPct: number;
+  /** Base scale for visual variance */
+  baseScale: number;
 }
 
 /**
@@ -19,18 +21,25 @@ interface PlanetSlot extends Planet {
  * matching the reference layout. Center column is reserved for the logo.
  */
 const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
-  const leftX = 18;
-  const rightX = 82;
   // Y positions for the 4 stops in each column (top to bottom)
-  const ys = [12, 33, 54, 75];
+  const ys = [8, 27, 46, 65];
+
+  // Arched X positions (curving around the center text)
+  const leftXs = [24, 14, 13, 22];
+  const rightXs = [76, 86, 87, 78];
+
+  // Base scales for visual variation
+  const leftScales = [0.85, 1.15, 0.9, 0.75];
+  const rightScales = [0.95, 0.8, 1.2, 0.85];
 
   return planets.map((p, i) => {
     const isLeft = i < 4;
     const yIndex = i % 4;
     return {
       ...p,
-      xPct: isLeft ? leftX : rightX,
+      xPct: isLeft ? leftXs[yIndex] : rightXs[yIndex],
       yPct: ys[yIndex],
+      baseScale: isLeft ? leftScales[yIndex] : rightScales[yIndex],
     };
   });
 };
@@ -96,7 +105,7 @@ export const Dashboard = () => {
         style={{ background: "var(--gradient-space)" }}
       />
       {/* Subtle grain */}
-      <div className="grain absolute inset-0 opacity-100 mix-blend-overlay pointer-events-none" />
+      <div className="grain absolute inset-0 opacity-60" />
 
       {/* Decorative space layer (asteroids, comet, ufo, big stars) */}
       <SpaceBackground />
@@ -217,7 +226,7 @@ const PlanetNode = ({ planet, stage, isSelected, isAnySelected, onClick }: Plane
   // Default position based on column layout
   let leftStyle = `${planet.xPct}%`;
   let topStyle = `${planet.yPct}%`;
-  let scale = 1;
+  let scale = planet.baseScale;
   let opacity = 1;
   let zIndex = 5;
 
