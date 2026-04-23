@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Planet, PLANETS, TEAMS } from "@/data/game";
 import { TeamPanel } from "./TeamPanel";
 import { SpaceBackground } from "./SpaceBackground";
@@ -49,6 +50,7 @@ const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
 export const Dashboard = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [stage, setStage] = useState<ZoomStage>("idle");
+  const navigate = useNavigate();
 
   const slots = arrangePlanets(PLANETS);
 
@@ -90,11 +92,11 @@ export const Dashboard = () => {
   useEffect(() => {
     if (stage !== "fade") return;
     const t = window.setTimeout(() => {
-      // Navegando para o modulo de desafio com o planeta selecionado
-      window.location.href = `/challenge/${selectedId}`;
+      // Navegando para o modulo de desafio com o planeta selecionado via React Router
+      navigate(`/challenge/${selectedId}`);
     }, 2400);
     return () => window.clearTimeout(t);
-  }, [stage, selectedId]);
+  }, [stage, selectedId, navigate]);
 
   const isAnyZoomed = stage !== "idle";
 
