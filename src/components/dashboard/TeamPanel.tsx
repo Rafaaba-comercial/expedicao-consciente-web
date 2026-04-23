@@ -6,7 +6,8 @@ interface TeamPanelProps {
 }
 
 export const TeamPanel = ({ teams }: TeamPanelProps) => {
-  const maxScore = Math.max(...teams.map((t) => t.score));
+  const uniqueScores = Array.from(new Set(teams.map((t) => t.score))).sort((a, b) => b - a);
+  const maxScore = uniqueScores[0];
 
   return (
     <div className="relative mx-auto w-full max-w-6xl">
@@ -25,6 +26,7 @@ export const TeamPanel = ({ teams }: TeamPanelProps) => {
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
           {teams.map((team) => {
             const isLeader = team.score === maxScore;
+            const rank = uniqueScores.indexOf(team.score) + 1;
             return (
               <li
                 key={team.id}
@@ -52,11 +54,16 @@ export const TeamPanel = ({ teams }: TeamPanelProps) => {
                       height={512}
                     />
                   </div>
-                  {isLeader && (
-                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-mustard text-[10px] font-bold text-mustard-foreground shadow-md">
-                      ★
-                    </span>
-                  )}
+                  <span
+                    className={cn(
+                      "absolute -right-2 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold shadow-md",
+                      isLeader
+                        ? "bg-mustard text-mustard-foreground"
+                        : "bg-muted text-foreground border border-border/50"
+                    )}
+                  >
+                    {rank}º
+                  </span>
                 </div>
 
                 {/* Name + score */}
