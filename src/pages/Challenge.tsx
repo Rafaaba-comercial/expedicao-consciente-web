@@ -1,145 +1,173 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { PLANETS } from "@/data/game";
-import { SpaceBackground } from "@/components/dashboard/SpaceBackground";
-import { CanvasInteraction } from "@/components/challenge/CanvasInteraction";
-import { TextInteraction } from "@/components/challenge/TextInteraction";
-import { MediaInteraction } from "@/components/challenge/MediaInteraction";
-import { ImageInteraction } from "@/components/challenge/ImageInteraction";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { useEffect } from "react";
+import { PLANETS, TEAMS } from "@/data/game";
+import { cn } from "@/lib/utils";
 
-export type InteractionType = "text" | "media" | "canvas" | "image";
+// Importando os assets exportados pelo usuário
+import FerramentasImg from "@/assets/desafio-criatividade/Ferramentas.png";
+import FundoTimerImg from "@/assets/desafio-criatividade/fundo timer e configurações.png";
+import PlacarImg from "@/assets/desafio-criatividade/Placar.png";
+import FundoEnviarImg from "@/assets/desafio-criatividade/Fundo botão enviar.png";
+import BotaoEnviarImg from "@/assets/desafio-criatividade/Botão enviar.png";
+import SetaVermelhaImg from "@/assets/desafio-criatividade/Seta fundo vermelho.png";
+import FundoRegrasLogoImg from "@/assets/desafio-criatividade/Fundo regras e logo.png";
+import BotaoRegrasImg from "@/assets/desafio-criatividade/Botão regras.png";
+import BotaoConfiguracoesImg from "@/assets/desafio-criatividade/Botão configurações.png";
 
 const Challenge = () => {
   const { planetId } = useParams();
   const navigate = useNavigate();
-  const planet = PLANETS.find((p) => p.id === planetId) || PLANETS[0];
-  
-  // For prototyping, we allow toggling the interaction type.
-  const [interactionType, setInteractionType] = useState<InteractionType>("text");
-  const [title, setTitle] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Simple scroll-to-top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleSubmit = () => {
-    if (!title.trim()) {
-      alert("Por favor, adicione um título para o seu desafio!");
-      return;
-    }
-    setIsSubmitting(true);
-    // Simulate submission delay
-    setTimeout(() => {
-      // For now, redirect to dashboard manually. Later this will go to Gallery.
-      navigate("/");
-    }, 1500);
-  };
+  // Lógica de placar idêntica a do TeamPanel
+  const uniqueScores = Array.from(new Set(TEAMS.map((t) => t.score))).sort((a, b) => b - a);
 
   return (
-    <div className="relative min-h-screen w-screen overflow-x-hidden bg-background">
-      {/* Decorative Background */}
-      <div className="fixed inset-0 z-0">
-        <SpaceBackground />
-        <div className="absolute inset-0 bg-black/50" />
+    <div className="relative h-screen w-screen overflow-hidden bg-[#F5EFE6] text-slate-800">
+      {/* Grid Pattern Background */}
+      <div 
+        className="absolute inset-0 opacity-40 mix-blend-multiply" 
+        style={{
+          backgroundImage: "linear-gradient(to right, #d1c8b8 1px, transparent 1px), linear-gradient(to bottom, #d1c8b8 1px, transparent 1px)",
+          backgroundSize: "24px 24px"
+        }}
+      />
+      <div className="absolute inset-0 grain opacity-20 pointer-events-none" />
+
+      {/* Botão de Regras Superior Esquerdo */}
+      <div className="absolute top-10 left-[380px] z-30">
+        <img 
+          src={BotaoRegrasImg} 
+          alt="Regras" 
+          className="w-[80px] hover:scale-110 cursor-pointer transition-transform drop-shadow-xl" 
+        />
       </div>
 
-      {/* Main Content Area */}
-      <main className="relative z-10 mx-auto max-w-4xl px-4 py-8 sm:px-8">
+      {/* Painel Esquerdo: Ferramentas e Enviar */}
+      <div className="absolute top-0 left-0 h-full w-[380px] z-20 flex flex-col pointer-events-none justify-between">
+        <div className="relative w-full pointer-events-auto">
+          <img src={FerramentasImg} alt="Ferramentas" className="w-[110%] max-w-none object-contain object-left-top drop-shadow-2xl" />
+        </div>
         
-        {/* Header Block */}
-        <header className="mb-8 flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            className="rounded-full bg-background/20 text-foreground backdrop-blur-md hover:bg-background/40"
-            size="icon"
-            onClick={() => navigate("/")}
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          <div className="flex items-center gap-3">
-            <img 
-               src={planet.image} 
-               alt={planet.name} 
-               className="h-10 w-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" 
-            />
-            <div>
-              <span className="font-display text-[10px] tracking-widest text-primary">PLANETA ATUAL</span>
-              <h1 className="font-display text-xl uppercase tracking-wider text-foreground">{planet.name}</h1>
-            </div>
+        <div className="relative w-[130%] -ml-[5%] mb-[-5%] pointer-events-auto mt-auto">
+          <img src={FundoEnviarImg} alt="Fundo Enviar" className="w-full object-contain object-bottom drop-shadow-2xl" />
+          <div className="absolute inset-0 flex flex-col items-center justify-end pb-[15%] pl-[10%]">
+            <button className="hover:scale-110 transition-transform active:scale-95 mb-4 group relative">
+              <div className="absolute inset-0 rounded-full bg-red-500/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <img src={SetaVermelhaImg} alt="Baixar/Ação" className="w-[80px] relative z-10 drop-shadow-lg" />
+            </button>
+            <button className="hover:scale-105 transition-transform active:scale-95 group relative">
+              <div className="absolute inset-0 bg-orange-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <img src={BotaoEnviarImg} alt="Enviar" className="w-[180px] relative z-10 drop-shadow-lg" />
+            </button>
           </div>
-        </header>
+        </div>
+      </div>
 
-        {/* Challenge Description Card */}
-        <div className="mb-8 rounded-xl border border-border/50 bg-card/80 p-6 shadow-xl backdrop-blur-md">
-          <h2 className="mb-2 text-2xl font-bold">O Chamado da Missão</h2>
-          <p className="mb-4 text-muted-foreground">
-            Descreva como você encararia um desafio imprevisto e conecte suas experiências passadas 
-            à emoção deste Planeta. É o momento de externalizar aquilo que geralmente guardamos apenas 
-            na mente. Como a energia de {planet.name} afeta sua perspectiva hoje?
+      {/* Painel Direito: Timer, Config e Placar */}
+      <div className="absolute top-0 right-0 h-full w-[350px] z-20 flex flex-col items-end pointer-events-none justify-between">
+        <div className="relative w-[110%] pointer-events-auto">
+          <img src={FundoTimerImg} alt="Timer Panel" className="w-full object-contain object-right-top drop-shadow-2xl" />
+          {/* O display do timer (a posição pode precisar de ajuste dependendo do corte exato da imagem) */}
+          <div className="absolute top-[35%] right-[15%] font-display text-5xl tracking-widest text-[#FF4500] drop-shadow-[0_0_12px_rgba(255,69,0,0.8)]">
+            0:29
+          </div>
+          <button className="absolute bottom-[5%] right-[15%] hover:scale-105 transition-transform">
+            <img src={BotaoConfiguracoesImg} alt="Configurações ON/OFF" className="w-[100px] drop-shadow-lg" />
+          </button>
+        </div>
+        
+        <div className="relative w-[100%] mb-[5%] pointer-events-auto mt-auto">
+          <img src={PlacarImg} alt="Placar" className="w-full object-contain object-right-bottom drop-shadow-2xl" />
+          
+          {/* Lista de Tripulação do Placar */}
+          <div className="absolute top-[20%] bottom-[10%] left-[20%] right-[10%] flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
+            {TEAMS.map((team) => {
+              const rank = uniqueScores.indexOf(team.score) + 1;
+              return (
+                <div key={team.id} className="flex items-center gap-3 bg-white/5 hover:bg-white/10 transition-colors p-2 rounded-lg border border-white/10 backdrop-blur-sm">
+                  <div className="relative shrink-0">
+                    <img src={team.avatar} alt={team.name} className="h-8 w-8 rounded-full border border-white/20 object-cover" />
+                    <span className="absolute -right-2 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-cyan-500/80 text-[8px] font-bold text-white shadow-md">
+                      {rank}º
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-display truncate text-[10px] uppercase text-white/90 leading-none">
+                      {team.name}
+                    </p>
+                    <p className="font-retro text-xs font-bold text-cyan-300">
+                      {team.score.toLocaleString("pt-BR")} <span className="text-[8px] opacity-60">PTS</span>
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Barra de Progresso Inferior */}
+      <div className="absolute bottom-0 left-[380px] right-[350px] h-[70px] bg-[#1B233A] border-t-4 border-l-4 border-r-4 border-[#2A3B5C] rounded-t-3xl z-10 flex items-center justify-center px-10 shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
+         <div className="w-full max-w-2xl h-4 bg-black/80 rounded-full overflow-hidden border-2 border-white/10 p-[2px]">
+            <div className="h-full w-[65%] bg-gradient-to-r from-[#00E5FF] to-[#FF4500] rounded-full shadow-[0_0_10px_rgba(255,69,0,0.5)]" />
+         </div>
+      </div>
+
+      {/* Área Central: Logo, Texto e Botão */}
+      <div className="relative z-0 h-full w-full flex flex-col items-center justify-center pt-4 px-[400px]">
+        {/* Título animado exportado */}
+        <img 
+          src={FundoRegrasLogoImg} 
+          alt="Desafio de Criatividade" 
+          className="w-[450px] object-contain mb-6 drop-shadow-xl hover:scale-105 transition-transform duration-700" 
+        />
+        
+        {/* Texto descritivo */}
+        <div className="text-center font-retro text-base text-slate-800 max-w-2xl bg-white/60 p-8 rounded-2xl shadow-lg border border-slate-300/50 backdrop-blur-md mb-8">
+          <p className="mb-6 font-bold text-lg leading-relaxed">
+            Desenhe algo que represente um limite que você precisa atravessar neste momento da sua vida.
           </p>
-          <div className="rounded-lg bg-orange-900/20 p-4 border border-orange-500/20 text-sm text-orange-200">
-            <strong>Regra Especial:</strong> Você deve responder a esse desafio utilizando a modalidade abaixo. 
-            Todas as respostas ficarão visíveis para a votação da tripulação no mural.
+          
+          <div className="text-left mb-6 bg-slate-100/80 p-5 rounded-xl border border-dashed border-slate-400">
+            <h4 className="font-display text-xs uppercase tracking-widest mb-3 opacity-70 text-slate-900">Regras</h4>
+            <ul className="list-none space-y-2 font-medium text-slate-800">
+              <li className="flex items-start gap-2">
+                <span className="text-[#FF4500] mt-1">✦</span>
+                <span>Não use palavras, apenas formas, símbolos ou traços.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#FF4500] mt-1">✦</span>
+                <span>Não tente "fazer bonito".</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#FF4500] mt-1">✦</span>
+                <span>Confie no gesto, não no controle.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="pt-4 border-t border-slate-300 flex items-center justify-center gap-2 flex-wrap">
+            <span className="font-display uppercase text-[9px] tracking-widest opacity-60">Avaliação:</span>
+            <span className="text-xs font-bold text-slate-700">profundidade simbólica</span>
+            <span className="text-[#FF4500]">•</span>
+            <span className="text-xs font-bold text-slate-700">criatividade</span>
+            <span className="text-[#FF4500]">•</span>
+            <span className="text-xs font-bold text-slate-700">coerência emocional</span>
+            <span className="text-[#FF4500]">•</span>
+            <span className="text-xs font-bold text-slate-700">ousadia expressiva</span>
           </div>
         </div>
 
-        {/* Challenge Interaction Interface */}
-        <div className="mb-6 rounded-xl border border-primary/20 bg-background/90 p-6 shadow-2xl backdrop-blur-xl">
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-4">
-            <h3 className="font-display text-lg tracking-wider">Sua Resposta</h3>
-            
-            {/* DEV TOOL: Mode Switcher (para visualização do protótipo) */}
-            <div className="flex items-center gap-2 rounded-lg bg-background/50 p-1 font-display text-xs">
-              <button onClick={() => setInteractionType('text')} className={`rounded-md px-3 py-1 ${interactionType === 'text' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>Texto</button>
-              <button onClick={() => setInteractionType('media')} className={`rounded-md px-3 py-1 ${interactionType === 'media' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>Mídia</button>
-              <button onClick={() => setInteractionType('canvas')} className={`rounded-md px-3 py-1 ${interactionType === 'canvas' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>Desenho</button>
-              <button onClick={() => setInteractionType('image')} className={`rounded-md px-3 py-1 ${interactionType === 'image' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`}>Imagem</button>
-            </div>
-          </div>
-
-          {/* Common Input: Title */}
-          <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-foreground/80">Título da Resposta</label>
-            <input 
-              type="text"
-              placeholder="Dê um título criativo..."
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-lg border border-input bg-background px-4 py-3 text-lg outline-none transition-colors focus:border-primary"
-            />
-          </div>
-
-          {/* Dynamic Interaction Render */}
-          <div className="min-h-[250px]">
-            {interactionType === "text" && <TextInteraction />}
-            {interactionType === "media" && <MediaInteraction />}
-            {interactionType === "canvas" && <CanvasInteraction />}
-            {interactionType === "image" && <ImageInteraction />}
-          </div>
-
-        </div>
-
-        {/* Submit Actions */}
-        <div className="flex justify-end pb-12">
-          <Button 
-            size="lg" 
-            className="w-full sm:w-auto h-14 px-12 text-lg font-bold shadow-[0_4px_14px_0_hsl(var(--primary)/0.39)] transition-transform hover:scale-105"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "ENVIANDO..." : "ENVIAR RESPOSTA"}
-          </Button>
-        </div>
-
-      </main>
-
-      {/* Fade submission overlay */}
-      <div className={`pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-1000 ${isSubmitting ? "opacity-100" : "opacity-0"}`}>
-        <span className="font-display text-sm tracking-[0.4em] text-foreground/60 animate-pulse">TRANSMITINDO DADOS...</span>
+        {/* Botão Começar */}
+        <button 
+          className="px-14 py-4 bg-[#1B233A] text-white font-display text-xl tracking-[0.2em] rounded-full shadow-[0_8px_30px_rgba(27,35,58,0.6)] border-2 border-slate-600 hover:scale-105 hover:bg-[#FF4500] hover:border-[#FF4500] transition-all duration-300"
+        >
+          COMEÇAR
+        </button>
       </div>
 
     </div>
