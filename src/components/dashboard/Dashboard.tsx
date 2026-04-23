@@ -31,8 +31,8 @@ const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
 
   // Base scales for visual variation - Scaled up overall
   // Escala igual para todos para manter o tamanho das fontes e distâncias dos nomes regulares
-  const leftScales = [1.5, 1.5, 1.5, 1.5];
-  const rightScales = [1.5, 1.5, 1.5, 1.5];
+  const leftScales = [1.0, 1.0, 1.0, 1.0];
+  const rightScales = [1.0, 1.0, 1.0, 1.0];
 
   return planets.map((p, i) => {
     const isLeft = i < 4;
@@ -259,10 +259,7 @@ const PlanetNode = ({ planet, stage, isSelected, isAnySelected, onClick }: Plane
       type="button"
       onClick={onClick}
       aria-label={`Planeta ${planet.name}`}
-      className={cn(
-        "group absolute flex flex-col items-center justify-center focus:outline-none",
-        !isAnySelected && "float",
-      )}
+      className="group absolute flex flex-col items-center justify-center focus:outline-none"
       style={{
         left: leftStyle,
         top: topStyle,
@@ -273,39 +270,41 @@ const PlanetNode = ({ planet, stage, isSelected, isAnySelected, onClick }: Plane
           "left 900ms var(--transition-planet), top 900ms var(--transition-planet), transform 900ms var(--transition-planet), opacity 500ms ease",
       }}
     >
-      <div
-        className="relative"
-        style={{
-          width: "clamp(64px, 11vmin, 120px)",
-          height: "clamp(64px, 11vmin, 120px)",
-        }}
-      >
-        {/* Glow */}
+      <div className="relative float flex flex-col items-center justify-center">
         <div
-          className="absolute inset-0 rounded-full blur-2xl"
+          className="relative"
           style={{
-            background: `hsl(${planet.color} / 0.5)`,
-            opacity: isSelected ? 0.9 : 0.35,
+            width: "clamp(64px, 11vmin, 120px)",
+            height: "clamp(64px, 11vmin, 120px)",
           }}
-        />
-        <img
-          src={planet.image}
-          alt={planet.name}
-          className="relative h-full w-full select-none object-contain drop-shadow-[var(--shadow-planet)] transition-transform duration-300 group-hover:scale-110"
-          loading="lazy"
-          draggable={false}
-        />
-      </div>
+        >
+          {/* Glow */}
+          <div
+            className="absolute inset-0 rounded-full blur-2xl"
+            style={{
+              background: `hsl(${planet.color} / 0.5)`,
+              opacity: isSelected ? 0.9 : 0.35,
+            }}
+          />
+          <img
+            src={planet.image}
+            alt={planet.name}
+            className="relative h-full w-full select-none object-contain drop-shadow-[var(--shadow-planet)] transition-transform duration-300 group-hover:scale-110"
+            loading="lazy"
+            draggable={false}
+          />
+        </div>
 
-      {/* Label */}
-      <span
-        className={cn(
-          "font-display absolute top-full mt-2 whitespace-nowrap rounded-full border border-foreground/10 bg-background/70 px-3 py-1 text-[10px] uppercase tracking-widest text-foreground/80 backdrop-blur-sm transition-opacity duration-300 sm:text-xs",
-          isAnySelected ? "opacity-0" : "opacity-100",
-        )}
-      >
-        {planet.name}
-      </span>
+        {/* Label */}
+        <span
+          className={cn(
+            "font-display absolute top-full mt-2 whitespace-nowrap rounded-full border border-foreground/10 bg-background/70 px-3 py-1 text-[10px] uppercase tracking-widest text-foreground/80 backdrop-blur-sm transition-opacity duration-300 sm:text-xs",
+            (isAnySelected && !isSelected) ? "opacity-0" : "opacity-100",
+          )}
+        >
+          {planet.name}
+        </span>
+      </div>
     </button>
   );
 };
