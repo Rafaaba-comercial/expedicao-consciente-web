@@ -40,9 +40,9 @@ export type Team = {
 };
 
 export const TEAMS: Team[] = [
-  { id: "t1", name: "Helena", avatar: avatar1, score: 1240 },
-  { id: "t2", name: "Mateus", avatar: avatar2, score: 980 },
-  { id: "t3", name: "Aiyana", avatar: avatar3, score: 1520 },
-  { id: "t4", name: "Joaquim", avatar: avatar4, score: 760 },
-  { id: "t5", name: "Sora", avatar: avatar5, score: 1100 },
+  { id: "t1", name: "Helena", avatar: avatar1, score: 0 },
+  { id: "t2", name: "Mateus", avatar: avatar2, score: 0 },
+  { id: "t3", name: "Aiyana", avatar: avatar3, score: 0 },
+  { id: "t4", name: "Joaquim", avatar: avatar4, score: 0 },
+  { id: "t5", name: "Sora", avatar: avatar5, score: 0 },
 ];
