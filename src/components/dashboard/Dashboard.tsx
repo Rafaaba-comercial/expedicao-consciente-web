@@ -22,15 +22,17 @@ interface PlanetSlot extends Planet {
  */
 const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
   // Y positions for the 4 stops in each column (top to bottom)
-  const ys = [8, 27, 46, 65];
+  // Espaçamento mais regular e que ocupa melhor a tela
+  const ys = [12, 35, 58, 81];
 
   // Arched X positions (curving around the center text) - Less intense
   const leftXs = [21, 17, 16, 20];
   const rightXs = [79, 83, 84, 80];
 
   // Base scales for visual variation - Scaled up overall
-  const leftScales = [3, 1.4, 1.15, 1.0];
-  const rightScales = [1.2, 1.05, 1.45, 1.1];
+  // Escala igual para todos para manter o tamanho das fontes e distâncias dos nomes regulares
+  const leftScales = [1.5, 1.5, 1.5, 1.5];
+  const rightScales = [1.5, 1.5, 1.5, 1.5];
 
   return planets.map((p, i) => {
     const isLeft = i < 4;
