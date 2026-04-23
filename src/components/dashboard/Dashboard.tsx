@@ -295,15 +295,17 @@ const PlanetNode = ({ planet, stage, isSelected, isAnySelected, onClick }: Plane
           />
         </div>
 
-        {/* Label */}
-        <span
-          className={cn(
-            "font-display absolute top-full mt-2 whitespace-nowrap rounded-full border border-foreground/10 bg-background/70 px-3 py-1 text-[10px] uppercase tracking-widest text-foreground/80 backdrop-blur-sm transition-opacity duration-300 sm:text-xs",
-            (isAnySelected && !isSelected) ? "opacity-0" : "opacity-100",
-          )}
-        >
-          {planet.name}
-        </span>
+        {/* Label - render only when not in fullscreen/fade to avoid it growing massively */}
+        {stage !== "fullscreen" && stage !== "fade" && (
+          <span
+            className={cn(
+              "font-display absolute top-full mt-2 whitespace-nowrap rounded-full border border-foreground/10 bg-background/70 px-3 py-1 text-[10px] uppercase tracking-widest text-foreground/80 backdrop-blur-sm transition-opacity duration-300 sm:text-xs",
+              isAnySelected && !isSelected ? "opacity-0" : "opacity-100",
+            )}
+          >
+            {planet.name}
+          </span>
+        )}
       </div>
     </button>
   );
