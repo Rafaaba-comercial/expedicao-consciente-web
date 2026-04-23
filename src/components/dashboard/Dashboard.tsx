@@ -29,7 +29,7 @@ const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
   const rightXs = [79, 83, 84, 80];
 
   // Base scales for visual variation - Scaled up overall
-  const leftScales = [1.1, 1.4, 1.15, 1.0];
+  const leftScales = [3, 1.4, 1.15, 1.0];
   const rightScales = [1.2, 1.05, 1.45, 1.1];
 
   return planets.map((p, i) => {
