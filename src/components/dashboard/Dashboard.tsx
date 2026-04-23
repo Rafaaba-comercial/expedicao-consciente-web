@@ -22,8 +22,8 @@ interface PlanetSlot extends Planet {
  */
 const arrangePlanets = (planets: Planet[]): PlanetSlot[] => {
   // Y positions for the 4 stops in each column (top to bottom)
-  // Espaçamento mais regular e que ocupa melhor a tela
-  const ys = [12, 35, 58, 81];
+  // Espaçamento mais regular e que ocupa melhor a tela, subindo para não cobrir o placar
+  const ys = [10, 30, 50, 70];
 
   // Arched X positions (curving around the center text) - Less intense
   const leftXs = [21, 17, 16, 20];
